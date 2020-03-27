@@ -33,7 +33,6 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         user = get_user_model().objects.get(**res.data)
         self.assertTrue(user.check_password(payload['password']))
-        #don't send back userpass
         self.assertNotIn('password', res.data)
 
     def test_user_exists(self):
@@ -46,7 +45,6 @@ class PublicUserApiTests(TestCase):
         create_user(**payload)
 
         res = self.client.post(CREATE_USER_URL, payload)
-        # bad request becasue it excists already
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_password_too_short(self):
